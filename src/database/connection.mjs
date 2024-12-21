@@ -12,7 +12,6 @@ const config = {
   }
 }
 
-<<<<<<< HEAD
 async function databaseConnection() {
   try {
       sql.connect(config);
@@ -27,14 +26,3 @@ const errorResponse = {
 };
 
 export { sql, databaseConnection, errorResponse }
-=======
-export const getConnection = async () => {
-  try {
-    const pool = sql.connect(config);
-
-    return pool; 
-  } catch (error) {
-    console.error(error);
-  }
-};
->>>>>>> ceada561a9ceae73e7ce18a6d5b2f67ba6d677ca
