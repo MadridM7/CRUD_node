@@ -15,6 +15,7 @@ export const getProducts = async (req, res) => {
 export const getProductId = (req, res) => {
   res.send('Obteniendo Productos Especifico')
 }
+
 export const createProduct = async (req, res) => {
   try {
     const {id, nombre, marca} = req.body;
