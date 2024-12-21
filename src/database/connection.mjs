@@ -16,7 +16,7 @@ async function databaseConnection() {
   try {
       sql.connect(config);
   } catch (err) {
-      console.error('Ocurrió un error al conectar con la BD.'/*, err*/);
+      console.error('Ocurrió un error al conectar con la BD.');
   }
 }
 
