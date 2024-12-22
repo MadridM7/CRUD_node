@@ -22,8 +22,11 @@ export const getProductId = async (req, res) => {
       WHERE 
       id = ${id}
       `;
-
-    res.status(200).json(result.recordset || [])
+    if (result.recordset.length != 0) {
+      res.status(200).json(result.recordset || [])
+    } else {
+      res.status(404).json("Error, producto no encontrado" || [])
+    }
   } catch (err) { res.status(500).json(errorResponse) }
 }
 
@@ -57,14 +60,15 @@ export const updateProduct = async (req, res) => {
       WHERE id = ${ id }
       `;
 
-    if ( exist.recordset ) {
+    if ( exist.recordset.length != 0) {
       const result = await sql.query`
         UPDATE Productos
         SET nombre = ${ nombre }, marca = ${ marca }
         WHERE id = ${ id }
       `;
-
       res.status(200).json(result.recordset || [])
+    } else {
+      res.status(404).json("Error, producto no encontrado" || [])
     }
   } catch (err) { res.status(500).json(errorResponse); console.log(err) }
 }
