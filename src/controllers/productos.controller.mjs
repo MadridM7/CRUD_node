@@ -73,6 +73,24 @@ export const updateProduct = async (req, res) => {
   } catch (err) { res.status(500).json(errorResponse); console.log(err) }
 }
 
-export const deleteProduct = (req, res) => {
-  res.send('Eliminando Producto')
+export const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const exist = await sql.query`
+      SELECT id 
+      FROM Productos
+      WHERE id = ${ id }
+      `;
+
+    if ( exist.recordset.length != 0) {
+      const result = await sql.query`
+        DELETE Productos
+        WHERE id = ${ id }
+      `;
+      res.status(200).json(result.recordset || [])
+    } else {
+      res.status(404).json("Error, producto no encontrado" || [])
+    }
+  } catch (err) { res.status(500).json(errorResponse); console.log(err) }
 }
