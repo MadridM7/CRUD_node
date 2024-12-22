@@ -12,8 +12,19 @@ export const getProducts = async (req, res) => {
   } catch (err) { res.status(500).json(errorResponse) }
 }
 
-export const getProductId = (req, res) => {
-  res.send('Obteniendo Productos Especifico')
+export const getProductId = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await sql.query`
+      SELECT 
+        * 
+      FROM Productos
+      WHERE 
+      id = ${id}
+      `;
+
+    res.status(200).json(result.recordset || [])
+  } catch (err) { res.status(500).json(errorResponse) }
 }
 
 export const createProduct = async (req, res) => {
