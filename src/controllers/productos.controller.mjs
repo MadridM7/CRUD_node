@@ -45,8 +45,28 @@ export const createProduct = async (req, res) => {
   
 }
 
-export const updateProduct = (req, res) => {
-  res.send('Actualizando Producto')
+export const updateProduct = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+    const { nombre, marca } = req.body;
+
+    const exist = await sql.query`
+      SELECT id 
+      FROM Productos
+      WHERE id = ${ id }
+      `;
+
+    if ( exist.recordset ) {
+      const result = await sql.query`
+        UPDATE Productos
+        SET nombre = ${ nombre }, marca = ${ marca }
+        WHERE id = ${ id }
+      `;
+
+      res.status(200).json(result.recordset || [])
+    }
+  } catch (err) { res.status(500).json(errorResponse); console.log(err) }
 }
 
 export const deleteProduct = (req, res) => {
